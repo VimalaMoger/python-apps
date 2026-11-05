@@ -21,22 +21,15 @@ operations_dict = {
     '4': div,
 }
 # Display operation menu:
-myList =[i for i in operations_dict]
+myList =[(i, operations_dict[i].__name__) for i in operations_dict]
 print(myList)
 
 def calculator():
     should_continue = True
-    operation_type = input("Pick an operation from the following options: 1 for addition, 2 for subtraction, 3 for multiplication, 4 for division: ")
-    wrong_entry_count = -1
-
-    while operation_type not in operations_dict:
-        operation_type = input("Please enter a valid option: ")
-        wrong_entry_count += 1
-        if wrong_entry_count == 1:
-            print("Try again later!")
-            break
-
-    if wrong_entry_count == -1:
+    operation_type = input("Choose from the following options: 1 for addition, 2 for subtraction, 3 for multiplication, 4 for division: ")
+    if operation_type not in operations_dict:
+        print("Choose the valid option: ")
+    else:
         num1 = float(input("Enter first number: "))
 
         while should_continue:
@@ -60,4 +53,5 @@ def calculator():
                         should_continue = False
     calculator()
 
-calculator()
+if __name__ == '__main__':
+    calculator()

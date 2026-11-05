@@ -10,9 +10,7 @@ II
 
 > Add these 4 functions into a dictionary as the values. Keys = '1', '2', '3', '4'.
 
-> Use the dictionary operations to perform the calculations. 
-
-e.g. 4 multiply 8 using the dictionary
+> Use the dictionary operations to perform the calculations. e.g. 4 multiply 8 using the dictionary
 
 III
 

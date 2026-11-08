@@ -1,5 +1,3 @@
-from asyncio import proactor_events
-
 from calculator_art import logo
 
 print(logo)

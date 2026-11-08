@@ -31,13 +31,12 @@ def check_answer(user_guess, actual_answer, turns_left):
     Function to check User's guess against actual answer
     Track the number of turns and reduce by 1 if they get it wrong"""
     global attempts
-    global guess
-    if guess == actual_answer:
+    if user_guess == actual_answer:
         print(f"You got it! The answer is {guess}")
-    elif guess > actual_answer:
+    elif user_guess > actual_answer:
         turns_left -= 1
         print("Too high!")
-    elif guess < actual_answer:
+    elif user_guess < actual_answer:
         turns_left -= 1
         print("Too low!")
     attempts = turns_left
@@ -84,4 +83,7 @@ def game():
                 attempts_left()
         except ValueError:
             print("Please type a valid input")
-game()
+    game()
+
+if __name__ == '__main__':
+    game()

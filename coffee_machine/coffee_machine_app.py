@@ -1,6 +1,7 @@
 from ingredients_menu import MENU, resources
-import random
+
 money_added_to_machine = 0
+
 def get_report():
     return resources
 
@@ -17,13 +18,14 @@ def make_cappuccino():
     pass
 
 def check_resources_sufficient(ingredients):
+    """Returns True when orders can be made. False if ingredients are insufficient"""
     resources_left = get_report()
     if resources_left['water'] >= ingredients['water']:
         if resources_left['coffee'] >= ingredients['coffee']:
             water = resources_left['water'] - ingredients['water']
-            cofee = resources_left['coffee'] - ingredients['coffee']
+            coffee = resources_left['coffee'] - ingredients['coffee']
             resources['water']= water
-            resources['coffee'] = cofee
+            resources['coffee'] = coffee
             return True
         else:
             print("“Sorry there is not enough coffee.”")
@@ -32,6 +34,7 @@ def check_resources_sufficient(ingredients):
     return False
 
 def process_coins():
+    """Returns the total from coins inserted"""
     total_payment = 0
     valid_coins = { 25 : "Quarter", 10 : "Dime", 5 : "Nickel", 1 : "Penny"}
     flag = True
@@ -53,6 +56,7 @@ def process_coins():
     return total_payment / 100
 
 def transaction_successful():
+    """Returns True when payment is accepted. False if money is not sufficient."""
     global money_added_to_machine
     total_payment  = process_coins()
     if total_payment < MENU['espresso']['cost']:

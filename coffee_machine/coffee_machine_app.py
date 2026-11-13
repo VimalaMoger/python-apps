@@ -9,7 +9,7 @@ def make_espresso():
     style = MENU['espresso']
     if check_resources_sufficient(style['ingredients']):
         if transaction_successful():
-            print("“Here is your espresso. Enjoy!”")
+            print("☕Here is your espresso. Enjoy!")
 
 def make_latte():
     pass
@@ -28,9 +28,9 @@ def check_resources_sufficient(ingredients):
             resources['coffee'] = coffee
             return True
         else:
-            print("“Sorry there is not enough coffee.”")
+            print("Sorry there is not enough coffee.")
     else:
-        print("“Sorry there is not enough water.”")
+        print("Sorry there is not enough water.")
     return False
 
 def process_coins():

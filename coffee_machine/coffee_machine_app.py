@@ -1,24 +1,20 @@
 from ingredients_menu import MENU, resources
+from coffee_machine_logo import logo
 
-money_added_to_machine = 0
+profit = 0
 
 def get_report():
     return resources
 
-def make_espresso():
-    style = MENU['espresso']
+def make_coffee(user_input):
+    style = MENU[user_input]
     if check_resources_sufficient(style['ingredients']):
-        if transaction_successful():
-            print("☕Here is your espresso. Enjoy!")
+        if transaction_successful(user_input):
+            update_resources(style['ingredients'])
+            print(f"☕Here is your {user_input}. Enjoy!")
 
-def make_latte():
-    pass
-
-def make_cappuccino():
-    pass
-
-def check_resources_sufficient(ingredients):
-    """Returns True when orders can be made. False if ingredients are insufficient"""
+def update_resources(ingredients):
+    """Update the resources once the order is completed."""
     resources_left = get_report()
     if resources_left['water'] >= ingredients['water']:
         if resources_left['coffee'] >= ingredients['coffee']:
@@ -26,6 +22,21 @@ def check_resources_sufficient(ingredients):
             coffee = resources_left['coffee'] - ingredients['coffee']
             resources['water']= water
             resources['coffee'] = coffee
+            if 'milk' in ingredients:
+                if resources_left['milk'] >= ingredients['milk']:
+                    milk = resources_left['milk'] - ingredients['milk']
+                    resources['milk'] = milk
+
+def check_resources_sufficient(ingredients):
+    """Returns True when order can be made. False if ingredients are insufficient"""
+    resources_left = get_report()
+    if resources_left['water'] >= ingredients['water']:
+        if resources_left['coffee'] >= ingredients['coffee']:
+            if 'milk' in ingredients:
+                if resources_left['milk'] >= ingredients['milk']:
+                    return True
+                else:
+                    print("Sorry, there is not enough milk")
             return True
         else:
             print("Sorry there is not enough coffee.")
@@ -55,19 +66,19 @@ def process_coins():
                 flag = True
     return total_payment / 100
 
-def transaction_successful():
+def transaction_successful(user_input):
     """Returns True when payment is accepted. False if money is not sufficient."""
-    global money_added_to_machine
+    global profit
     total_payment  = process_coins()
-    if total_payment < MENU['espresso']['cost']:
+    if total_payment < MENU[user_input]['cost']:
         print(f"Sorry that's not enough money. Money refunded: ${total_payment}")
         return False
-    elif total_payment > MENU['espresso']['cost']:
-        change = round(total_payment - MENU['espresso']['cost'],2)
-        money_added_to_machine += MENU['espresso']['cost']
-        resources['Money'] = f"${money_added_to_machine}"
+    elif total_payment > MENU[user_input]['cost']:
+        change = round(total_payment - MENU[user_input]['cost'],2)
+        profit += MENU[user_input]['cost']
+        resources['Money'] = f"${profit}"
         print(f"Payment complete! Total inserted: ${total_payment}.")
-        print(f"${total_payment} - ${MENU['espresso']['cost']} = ${change}")
+        print(f"${total_payment} - ${MENU[user_input]['cost']} = ${change}")
         print(f"Here is ${change} dollars in change.")
         return True
     else:
@@ -75,19 +86,20 @@ def transaction_successful():
         return  True
 
 def coffee_machine_app():
+
     user_input = input("What would you like? (espresso/latte/cappuccino): or type 'off' to stop ")
     if user_input == 'off':
         quit()
-    if user_input == 'espresso':
-        make_espresso()
-    elif user_input == 'latte':
-        make_latte()
-    elif user_input == 'cappuccino':
-        make_cappuccino()
+    if user_input in ['espresso', 'latte', 'cappuccino']:
+        make_coffee(user_input)
+    else:
+        coffee_machine_app()
+
     show_report = input("Would you want to see report? type 'report' ")
     if show_report == 'report':
         print(get_report())
     coffee_machine_app()
 
 if __name__ == '__main__':
+    print(logo)
     coffee_machine_app()
